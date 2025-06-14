@@ -10,6 +10,8 @@ SCREEN_BASE=$400
 clrscr ;clear screen
 
 init:
+	lda #0
+	sta points
 	;init player
 	setSpriteMultiColor1 13
 	setSpriteMultiColor2 5
@@ -61,6 +63,9 @@ mainloop:
 		rand16 300
 		setSpriteX 2,AX
 		setSpriteY 2,0
+		ldx points
+		inx
+		stx points
 	endif
 	
 	;needle 2
@@ -73,6 +78,9 @@ mainloop:
 		rand16 300
 		setSpriteX 3,AX
 		setSpriteY 3,0
+		ldx points
+		inx
+		stx points 
 	endif
 
 	;needle 3
@@ -85,11 +93,28 @@ mainloop:
 		rand16 300
 		setSpriteX 4,AX
 		setSpriteY 4,0
+		ldx points
+		inx
+		stx points
 	endif
 	
 	sync_to_rasterline256
 
+	clc
+    	ldx #0 ;start at 0,0
+    	ldy #0
+    	jsr $FFF0   ;call PLOT routine to set cursor position
+	println ""
+	print "points: "
+	lda points
+	printa
+
 jmp mainloop
+
+incpoints:
+	ldx points
+	inx
+	stx points 
 
 isr:
 	asl $d019 ;to clear the interrupt
@@ -128,7 +153,6 @@ isr:
 	; COLLISION DETECTED
 	lda #$0d          ; Reset to original color (light red)
 	sta $d028
-
 	jmp $ea31
 
 	nocollision:
@@ -140,3 +164,4 @@ isr:
 
 ;variables
 joyvalue: .byte 00
+points: .byte 00
