@@ -7,9 +7,8 @@ SCREEN_BASE=$400
 
 clrscr ;clear screen
 
-install_file "assets/dino.prg" ;just for testing
 ;init object
-;install_file"blub.prg",$3000
+install_file "assets/object.prg",$3000
 setSpriteMultiColor1 3
 setSpriteMultiColor2 5
 setSpriteCostume 0,$3000
@@ -18,7 +17,7 @@ updateSpriteAttributes 0
 showSprite 0
 
 ;init player
-;install_file"img.prg",$3040
+install_file "assets/player.prg",$3040
 setSpriteMultiColor1 13
 setSpriteMultiColor2 5
 setSpriteCostume 1,$3040
