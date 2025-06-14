@@ -3,30 +3,40 @@
 
 MUSIC_BASE=$c000
 install_file "assets/backgroundmusic.prg"
+install_file "assets/Hamster.prg",$3040
+install_file "assets/PinNeedle.prg",$3000
 SCREEN_BASE=$400
 
 clrscr ;clear screen
 
-;init object
-install_file "assets/object.prg",$3000
-setSpriteMultiColor1 3
-setSpriteMultiColor2 5
-setSpriteCostume 0,$3000
-setSpriteXY 0,100,100
-updateSpriteAttributes 0
-showSprite 0
-
-;init player
-install_file "assets/player.prg",$3040
-setSpriteMultiColor1 13
-setSpriteMultiColor2 5
-setSpriteCostume 1,$3040
-setSpriteXY 1,180,220
-updateSpriteAttributes 1
-showSprite 1
-
-
 init:
+	;init player
+	setSpriteMultiColor1 13
+	setSpriteMultiColor2 5
+	setSpriteCostume 1,$3040
+	setSpriteXY 1,180,220
+	updateSpriteAttributes 1
+	showSprite 1
+	
+	;init needles	
+	setSpriteMultiColor1 3
+	setSpriteMultiColor2 5
+
+	setSpriteCostume 2,$3000
+	setSpriteXY 2,0,0
+	updateSpriteAttributes 2
+	showSprite 2
+	
+	setSpriteCostume 3,$3000
+	setSpriteXY 3,0,100
+	updateSpriteAttributes 3
+	showSprite 3
+
+	setSpriteCostume 4,$3000
+	setSpriteXY 4,0,200
+	updateSpriteAttributes 4
+	showSprite 4
+
 	;init music
 	lda #$00 ; select first tune
 	jsr MUSIC_BASE ; init music
@@ -40,20 +50,44 @@ init:
 
 
 mainloop:
-
-;set X to a random position
-rand16 300
-setSpriteX 0,AX
-sync_to_rasterline256
-
-;move object downwards
-for X,0,to,250
-	store X
-	setSpriteY 0,X
-	sync_to_rasterline256
-	restore X
+	;move needles downwards
+	;needle 2
+	getSpriteY 2,X
+	inx
+	setSpriteY 2,X
+	txa
+	cmp #250
+	if ge ;if y pos is >= 250, reset at random pos
+		rand16 300
+		setSpriteX 2,AX
+		setSpriteY 2,0
+	endif
 	
-next
+	;needle 2
+	getSpriteY 3,X
+	inx
+	setSpriteY 3,X
+	txa
+	cmp #250
+	if ge
+		rand16 300
+		setSpriteX 3,AX
+		setSpriteY 3,0
+	endif
+
+	;needle 3
+	getSpriteY 4,X
+	inx
+	setSpriteY 4,X
+	txa
+	cmp #250
+	if ge
+		rand16 300
+		setSpriteX 4,AX
+		setSpriteY 4,0
+	endif
+	
+	sync_to_rasterline256
 
 jmp mainloop
 
