@@ -40,37 +40,16 @@ init:
 
 
 mainloop:
-for X,100,to,200
+
+;set X to a random position
+rand16 300
+setSpriteX 0,AX
+sync_to_rasterline256
+
+;move object downwards
+for X,0,to,250
 	store X
 	setSpriteY 0,X
-	sync_to_rasterline256
-	restore X
-	
-next
-
-for X,100,to,200
-	store X
-	txa
-	ldx #0
-	setSpriteX 0,AX
-	sync_to_rasterline256
-	restore X
-
-next
-
-for X,200,downto,100
-	store X
-	setSpriteY 0,X
-	sync_to_rasterline256
-	restore X
-	
-next
-
-for X,200,downto,100
-	store X
-	txa
-	ldx #0
-	setSpriteX 0,AX
 	sync_to_rasterline256
 	restore X
 	
