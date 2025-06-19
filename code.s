@@ -2,7 +2,7 @@
 .include "LAMAlib-sprites.inc"
 
 MUSIC_BASE=$c000
-install_file "assets/backgroundmusic.prg"
+install_file "assets/music.prg"
 install_file "assets/Hamster.prg",$3040
 install_file "assets/PinNeedle.prg",$3000
 SCREEN_BASE=$400
@@ -22,7 +22,7 @@ init:
 	
 	;init needles	
 	setSpriteMultiColor1 3
-	setSpriteMultiColor2 5
+	setSpriteMultiColor2 12
 
 	setSpriteCostume 2,$3000
 	setSpriteXY 2,0,0
