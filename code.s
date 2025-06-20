@@ -50,8 +50,11 @@ init:
 	stax $314
 	cli
 
-
 mainloop:
+
+
+
+
 	;move needles downwards
 	;needle 2
 	getSpriteY 2,X
@@ -68,6 +71,8 @@ mainloop:
 		stx points
 	endif
 	
+
+
 	;needle 2
 	getSpriteY 3,X
 	inx
@@ -108,8 +113,18 @@ mainloop:
 	print "points: "
 	lda points
 	printa
+	print "lives: "
+	lda lives
+	printa
+	lda lives
+	cmp #$0
+	beq game_over
+	
+	
+
 
 jmp mainloop
+
 
 incpoints:
 	ldx points
@@ -153,15 +168,39 @@ isr:
 	; COLLISION DETECTED
 	lda #$0d          ; Reset to original color (light red)
 	sta $d028
+	;if byte is set, skip taking damage
+	lda invincibility
+	cmp #$1
+	beq skip_reduce
+
+	reduce_lives:
+	;set invincibility byte
+	ldx #$1
+	stx invincibility
+
+	ldx lives
+	dex
+	stx lives
+
+
+	skip_reduce:
+
 	jmp $ea31
 
 	nocollision:
+	ldx #$0
+	stx invincibility
 	lda #$02          ; Set new color (example: red)
 	sta $d028         ; Sprite 1 color
 
 	jmp $ea31
 
+game_over:
+	BRK
+
 
 ;variables
 joyvalue: .byte 00
 points: .byte 00
+lives: .byte 03
+invincibility: .byte 00
