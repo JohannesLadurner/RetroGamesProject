@@ -52,9 +52,6 @@ init:
 
 mainloop:
 
-
-
-
 	;move needles downwards
 	;needle 2
 	getSpriteY 2,X
@@ -71,8 +68,6 @@ mainloop:
 		stx points
 	endif
 	
-
-
 	;needle 2
 	getSpriteY 3,X
 	inx
@@ -113,17 +108,16 @@ mainloop:
 	print "points: "
 	lda points
 	printa
-	print "lives: "
+	print "  lives: "
 	lda lives
 	printa
 	lda lives
 	cmp #$0
 	beq game_over
 	
-	
-
-
 jmp mainloop
+
+
 
 
 incpoints:
@@ -166,7 +160,7 @@ isr:
 	beq nocollision   ; If not, skip color change
 
 	; COLLISION DETECTED
-	lda #$0d          ; Reset to original color (light red)
+	lda #$04      ; Reset to original color (light red)
 	sta $d028
 	;if byte is set, skip taking damage
 	lda invincibility
