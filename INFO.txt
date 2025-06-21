@@ -1,0 +1,10 @@
+Game Name: bubbles struggles
+
+Bodo Thausing  collision + lives
+Claudia Leitinger : Assets + music
+Johannes Ladurner : main logic + needles
+
+Game Instructions: 
+use A and D to avoid the Needles that rain down.
+For each Needle that is dropped, you get a point
+Each needle that hits you, you lose a life
