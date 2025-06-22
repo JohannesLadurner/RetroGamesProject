@@ -54,8 +54,11 @@ mainloop:
 
 	;move needles downwards
 	;needle 2
-	getSpriteY 2,X
-	inx
+	getSpriteY 2,X       
+	txa                  
+	clc                  
+	adc needle_speed     
+	tax                  
 	setSpriteY 2,X
 	txa
 	cmp #250
@@ -66,11 +69,15 @@ mainloop:
 		ldx points
 		inx
 		stx points
+		jsr update_speed
 	endif
 	
 	;needle 2
-	getSpriteY 3,X
-	inx
+	getSpriteY 3,X      
+	txa                
+	clc                 
+	adc needle_speed    
+	tax                 
 	setSpriteY 3,X
 	txa
 	cmp #250
@@ -81,11 +88,15 @@ mainloop:
 		ldx points
 		inx
 		stx points 
+		jsr update_speed
 	endif
 
 	;needle 3
-	getSpriteY 4,X
-	inx
+	getSpriteY 4,X      
+	txa             
+	clc                  
+	adc needle_speed     
+	tax                  
 	setSpriteY 4,X
 	txa
 	cmp #250
@@ -96,6 +107,7 @@ mainloop:
 		ldx points
 		inx
 		stx points
+		jsr update_speed
 	endif
 	
 	sync_to_rasterline256
@@ -116,8 +128,6 @@ mainloop:
 	beq game_over
 	
 jmp mainloop
-
-
 
 
 incpoints:
@@ -192,9 +202,40 @@ isr:
 game_over:
 	BRK
 
+update_speed:
+	lda points
+	cmp #10
+	bcc set_speed_1
+	cmp #20
+	bcc set_speed_2
+	cmp #30
+	bcc set_speed_3
+	jmp set_speed_4
+set_speed_2:
+	lda #2
+	sta needle_speed
+	rts
+
+set_speed_3:
+	lda #3
+	sta needle_speed
+	rts
+
+set_speed_4:
+	lda #4
+	sta needle_speed
+	rts
+
+set_speed_1:
+	lda #1
+	sta needle_speed
+	rts
+
 
 ;variables
 joyvalue: .byte 00
 points: .byte 00
 lives: .byte 03
+speed: .byte 01
 invincibility: .byte 00
+needle_speed: .byte 01
